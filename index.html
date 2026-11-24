@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Royal Tach | Virtual Dressing Studio</title><meta name="description" content="Try on outfits, jewellery and shoes in Royal Tach's Virtual Dressing Studio demo."><meta property="og:title" content="Royal Tach | Virtual Dressing Studio"><meta property="og:description" content="Pick an outfit, choose your size, add jewellery & shoes, see every angle. A demo by Royal Tach."><meta property="og:type" content="website">
+<style>
+*{margin:0;box-sizing:border-box}body{background:#07080a;height:100vh;display:grid;place-items:center;overflow:hidden;font-family:system-ui;color:#fff0d8}
+.room{position:relative;width:min(100vw,calc(100vh*9/16));aspect-ratio:9/16;overflow:hidden;font-size:calc(min(100vw,calc(100vh*9/16))/36);background:linear-gradient(#2a1a12,#120a07 62%)}
+.wall{position:absolute;inset:0 0 34% 0;background:repeating-linear-gradient(90deg,#2d1d14 0 7.5%,#1b100b 7.5% 8%);box-shadow:inset 0 -3em 4em #000a}
+.floor{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(#4a382b,#150d08)}
+.glow{position:absolute;left:50%;top:8%;width:70%;height:55%;transform:translateX(-50%);background:radial-gradient(ellipse,#f1c77a30,transparent 65%)}
+.brand{position:absolute;top:2.2%;width:100%;text-align:center;font:2em Georgia;color:#f4d49a;letter-spacing:.2em}.brand small{display:block;font:.45em system-ui;letter-spacing:.35em;color:#d3b894;margin-top:.3em}
+.plat{position:absolute;left:50%;bottom:21.3%;width:36%;height:6%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at 50% 35%,#6b5440,#2a1c12 70%);box-shadow:0 .5em 1.2em #000c,0 0 0 .18em #c9a05a,0 0 1.4em #e7c57a55}
+.m{position:absolute;left:50%;bottom:23.6%;height:56%;width:46%;transform:translateX(-50%)}
+.m .v{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:50% 100%;transition:opacity .2s,transform .25s}
+#jw{position:absolute;left:0;bottom:0;width:100%;aspect-ratio:900/1420;pointer-events:none;transition:transform .25s}#jw img{position:absolute;display:block;filter:drop-shadow(0 1px 1.5px rgba(40,15,5,.55))}#jw img.sh{filter:drop-shadow(0 2px 3px rgba(0,0,0,.55))}#jw .gs{position:absolute;background:radial-gradient(ellipse at center,rgba(0,0,0,.55) 0,rgba(0,0,0,0) 70%);border-radius:50%;filter:none}.m{transition:transform .35s}.m.zoom{transform:translateX(-50%) scale(1.9);transform-origin:50% 18%}.glass{position:absolute;background:linear-gradient(145deg,#4a2e1fcc,#1e100acc);border:1px solid #c9a05a;border-radius:1em;backdrop-filter:blur(8px);padding:.9em}
+h2{font:1.15em Georgia;color:#f4d49a;margin-bottom:.6em;text-align:center}
+#lc{position:absolute;left:2%;top:31%;bottom:25%;width:25%;display:flex;flex-direction:column;gap:.5em}#lc .glass{position:static}#sel{flex:1;display:flex;flex-direction:column;justify-content:center}#sel button{display:block;width:100%;margin-bottom:.9em;padding:1em .05em;font-size:.8em}
+button{font:inherit;color:inherit;background:#ffffff0c;border:1px solid #8e6a42;border-radius:.6em;cursor:pointer}button.on{background:#77532b;border-color:#ffe0a0;box-shadow:0 0 .8em #eab45c66}button:disabled{opacity:.35}
+#wr{right:2%;top:31%;bottom:25%;width:25%;display:flex;flex-direction:column}
+.grid{flex:1;align-content:space-between;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5em;overflow:hidden}
+.it{padding:.15em;min-width:0;overflow:hidden;text-align:center;font-size:.46em}.it img{width:100%;aspect-ratio:.85;object-fit:contain;background:#f4e9dd;border-radius:.4em;display:block}.it b{display:block;margin-top:.3em;font-weight:600;line-height:1.2}.it i{display:block;font-style:normal;color:#e7c57a;margin-top:.15em;font-size:.95em}
+.it.on{border-color:#ffe0a0;box-shadow:0 0 .8em #eab45c88}
+.sz{font-size:.9em}.sizes{display:flex;gap:.35em;margin:.4em 0}.sizes button{flex:1;padding:.4em 0;font-size:.8em}.tiny{font-size:.62em;color:#d9bd99;line-height:1.5}
+.views{position:absolute;bottom:9%;left:0;width:100%;display:flex;gap:.4em;justify-content:center}.views button{padding:.5em .9em;border-radius:2em;font-size:.85em}
+.act{position:absolute;bottom:2.5%;left:0;right:0;display:flex;gap:.5em;justify-content:center}.act button{padding:.7em 1.3em;background:linear-gradient(#ffe2a3,#bd8537);color:#211309;font-weight:700;border:0}
+.nm{position:absolute;top:31.5%;left:30%;width:40%;text-align:center;color:#f2e6c9;font-size:.95em}
+.note{position:absolute;left:50%;transform:translateX(-50%);bottom:15%;width:auto;white-space:nowrap;text-align:center;background:#1e100aee;border:1px solid #c9a05a;border-radius:2em;padding:.45em 1.1em;font-size:.8em;display:none;z-index:5;color:#f4d49a}.note img{display:none}.note p{margin:0}
+#msg{position:absolute;bottom:7%;width:100%;text-align:center;color:#f4d49a;font-size:.85em}
+</style>
+<div class=room id=room><div class=wall></div><div class=floor></div><div class=glow></div>
+<div class=brand>ROYAL TACH<small>VIRTUAL DRESSING STUDIO</small></div><div class=nm id=nm></div>
+<div class=plat></div><div class=m id=m><div class=v></div><div class=v></div><div id=jw></div></div>
+<div class=note id=note><img id=nimg><p id=ntx></p></div>
+<div id=lc><div class="glass" id=sel><h2>Style Selector</h2><button data-c=Outfits class=on>Outfits</button><button data-c=Accessories>Accessories</button><button data-c=Shoes>Shoes</button><button id=nl>New Look</button></div>
+<div class="glass sz" id=sz><h2 id=szh></h2><div class=sizes id=sizes></div><div class=tiny>Size is a visual guide only, not a body measurement.</div></div></div>
+<div class="glass" id=wr><h2 id=wh>Your Wardrobe</h2><div class=grid id=grid></div></div>
+
+<div class=views id=views></div><div id=msg></div><div id=hint style="display:none;position:absolute;bottom:13%;width:100%;text-align:center;color:#f4d49a;font-size:.8em">Jewellery is shown in the Front view</div>
+<div class=act><button id=save>Save Look</button><button id=share>Share Look</button><button id=reset>Reset</button></div></div>
+<script>
+const SM={XS:.92,S:.95,M:1,L:1.04,XL:1.08};
+const DR=[["Burgundy Midi Dress","th_burg","burg",["front","sl","back","sr"]],["Maroon Anarkali","th_maroon","maroon",["front","sr","back","sl"]],["Cream Top Set","th_cream","cream",["front","sl","back","sr"]],["Cream Blazer Suit","th_blz","blz",["front","sl","back","sr"]],["Navy Pantsuit","dresses4","navy",["front","sl","back","sr"]],["Emerald Dress","th_green","green",["front","sl","back","sr"]],["Camel Trench Coat","dresses6","trench",["front","sl","back","sr"]],["Rose Midi Dress","dresses7","rose",["front","sl","back","sr"]],["Black Midi Dress","dresses8","black",["front","sl","back","sr"]],["White Shirt Set","th_wshirt","wshirt",["front","sl","back","sr"]],["Blue Shirt","dresses10","bshirt",["front","sl","back","sr"]],["Beige Pleated Skirt","dresses11","pleat",["front","sl","back","sr"]]];
+const SH=["Black Bow Heels","Leopard Heels","Cream Heels","Pearl Bow Heels","Teal Mules","Ruby Heels","Gold sandals"];
+const JW=[["Leaf Pendant","pendant"],["Leaf Earrings","earL"],["Leaf Bracelet","bracelet"],["Leaf Ring","ring"],["Leaf Necklace","necklace"],["Emerald Necklace","emnecklace"],["Emerald Earrings","emearL"],["Emerald Bracelet","embracelet"],["Emerald Ring","emring"],["Pink Necklace","pknecklace"],["Pink Earrings","pkearL"],["Pink Bracelet","pkbracelet"],["Pink Ring","pkring"]];
+const PL={pendant:[[465,222,66,0]],earL:[[410,150,24,0],[521,150,24,0,"earR"]],bracelet:[[623,690,52,20]],ring:[[612,755,16,0]],necklace:[[465,238,128,0]],emnecklace:[[465,232,112,0]],emearL:[[413,152,22,0],[519,152,22,0,"emearR"]],embracelet:[[623,690,52,20]],emring:[[612,755,17,0]],pknecklace:[[465,232,118,0]],pkearL:[[413,153,19,0],[519,153,19,0,"pkearR"]],pkbracelet:[[623,690,52,0]],pkring:[[612,755,17,0]]};
+const DEF={cat:'Outfits',d:0,sh:2,jw:[],size:'M',view:'front'};
+let st=load()||{...DEF};
+function load(){try{const h=location.hash.slice(1);if(h)return{...DEF,...JSON.parse(atob(h))};const s=localStorage.getItem('rt2');return s?{...DEF,...JSON.parse(s)}:null}catch(e){return null}}
+const $=i=>document.getElementById(i),L=[...document.querySelectorAll('.m > .v')];let tp=0;
+const VN={front:'Front',sl:'Left',back:'Back',sr:'Right'},VO=['front','sl','back','sr'];
+DR.forEach(d=>{if(d[2])d[3].forEach(v=>{const i=new Image();i.src=`a/${d[2]}_${v}.webp`;i.decode&&i.decode().catch(()=>{})})});
+const av=d=>d[2]?d[3]:[];
+function stage(){const d=DR[st.d],a=av(d);let v=st.view;if(a.length&&!a.includes(v))v=a[0];
+ $('nm').textContent=d[0]+(a.length?' · '+VN[v]:'');
+ if(a.length){$('note').style.display='none';const n=1-tp;L[n].style.backgroundImage=`url(a/${d[2]}_${v}.webp)`;L[n].style.transform=`translateY(-${lf()}%) scaleX(${SM[st.size]})`;L[n].style.opacity=1;L[tp].style.opacity=0;tp=n}
+ else{$('note').style.display='block';$('ntx').textContent=d[0]+' — model photo coming soon'}
+ $('views').innerHTML='';VO.forEach(x=>{const b=document.createElement('button');b.textContent=VN[x];b.disabled=!a.includes(x);if(a.length&&x==v)b.className='on';b.onclick=()=>{st.view=x;stage();jewels()};$('views').appendChild(b)});
+ $('szh').textContent='Size '+st.size;$('sizes').innerHTML='';Object.keys(SM).forEach(k=>{const b=document.createElement('button');b.textContent=k;if(k==st.size)b.className='on';b.onclick=()=>{st.size=k;stage();grid();jewels()};$('sizes').appendChild(b)})}
+const PSX=0;const NH={necklace:76,emnecklace:75,pendant:92};
+const PS={sl:{emnecklace:[[424,232,34,75]],necklace:[[424,238,38,76]],pendant:[[427,222,20,92]],earL:[[425,150,20,0]],emearL:[[425,150,20,0]],bracelet:[[418,694,30,14]],embracelet:[[418,694,30,14]],ring:[[427,798,10,0]],emring:[[427,798,10,0]],pknecklace:[[424,232,34,77]],pkearL:[[425,152,16,0]],pkbracelet:[[418,694,30,12]],pkring:[[427,798,10,0]]},
+sr:{emnecklace:[[478,232,34,75]],necklace:[[478,238,38,76]],pendant:[[475,222,20,92]],earL:[[462,150,20,0,"earR"]],emearL:[[462,150,20,0,"emearR"]],bracelet:[[470,694,30,14]],embracelet:[[470,694,30,14]],ring:[[473,798,10,0]],emring:[[473,798,10,0]],pknecklace:[[478,232,34,77]],pkearL:[[462,152,16,0,"pkearR"]],pkbracelet:[[470,694,30,12]],pkring:[[473,798,10,0]]},
+back:{bracelet:[[625,698,30,14]],embracelet:[[625,698,30,14]],pkbracelet:[[625,698,30,12]]}};
+const SHOE={6:{front:[['gfront',449,1414,152]],back:[['gback',449,1414,134]],sl:[['gsl',338,1411,165,'L']],sr:[['gsr',372,1411,165,'L']]},0:{front:[['bkfront',413,1412,84],['bkfront',485,1412,84]],back:[['bkback',415,1412,78],['bkback',485,1412,78]],sl:[['bkR',335,1405,190,'L']],sr:[['bkL',370,1405,190,'L']]},
+1:{front:[['lpfront',413,1412,66],['lpfront',485,1412,66]],back:[['lpback',415,1412,68],['lpback',485,1412,68]],sl:[['lpR',335,1405,190,'L']],sr:[['lpL',370,1405,190,'L']]},
+2:{front:[['crfront',413,1412,70],['crfront',485,1412,70]],back:[['crback',415,1412,70],['crback',485,1412,70]],sl:[['crR',335,1405,190,'L']],sr:[['crL',370,1405,190,'L']]}};
+SHOE[3]={front:[['cpfront',449,1412,122]],back:[['cpback',449,1412,118]],sl:[['cpsl',335,1405,190,'L']],sr:[['cpsr',370,1405,190,'L']]};
+SHOE[4]={front:[['tlfront',449,1412,98]],back:[['tlback',449,1412,92]],sl:[['tlsl',340,1408,160,'L']],sr:[['tlsr',376,1408,160,'L']]};
+SHOE[5]={front:[['rbfront',449,1412,124]],back:[['rbback',449,1412,126]],sl:[['rbsl',335,1405,190,'L']],sr:[['rbsr',370,1405,190,'L']]};
+const FEET={front:[['bfront',449,1411,134]],back:[['bback',449,1411,136]],sl:[['bsl',335,1409,188,'L']],sr:[['bsr',372,1409,188,'L']]};
+function feet(box,view){(FEET[view]||[]).forEach(([k,x,yb,w,m])=>{const im=new Image();im.src='a/j/'+k+'.png';im.style.width=(w/900*100)+'%';im.style.bottom=((1420-yb)/1420*100)+'%';im.style.left=(m=='L'?x/900*100:(x-w/2)/900*100)+'%';im.style.filter='none';if(st.sh==6||st.sh==4){im.style.webkitMaskImage=im.style.maskImage='linear-gradient(to bottom,#000 0%,#000 30%,transparent 62%)'}else if(SHOE[st.sh])im.style.clipPath='inset(0 0 52% 0)';if(view=='front'||view=='back'){im.style.height=(116/1420*100)+'%'}box.appendChild(im)})}
+function shoes(box,view){const S=SHOE[st.sh];if(!S)return;(S[view]||[]).forEach(([k,x,yb,w,m])=>{const im=new Image();im.className='sh';im.src='a/j/'+k+'.png';im.style.width=(w/900*100)+'%';im.style.bottom=((1420-yb)/1420*100)+'%';im.style.left=(m=='L'?x/900*100:(x-w/2)/900*100)+'%';const g=document.createElement('div');g.className='gs';const gw=(m=='L'?190:w)*1.0;g.style.width=(gw/900*100)+'%';g.style.height=(gw*.16/1420*100)+'%';g.style.left=(m=='L'?(x-6)/900*100:(x-w/2)/900*100)+'%';g.style.bottom=((1420-yb-4)/1420*100)+'%';box.insertBefore(g,box.firstChild);box.appendChild(im)})}
+const LIFT={};const lf=()=>(LIFT[st.sh]||0)/1420*100;
+function jewels(){const d=DR[st.d],a=av(d);const box=$('jw');box.innerHTML='';$('hint').style.display='none';
+ box.style.transform=`scaleX(${SM[st.size]})`;if(!a.length)return;
+ const view=a.includes(st.view)?st.view:a[0];const lift=document.createElement('div');lift.style.cssText='position:absolute;left:0;top:0;width:100%;height:100%;transform:translateY(-'+lf()+'%)';box.appendChild(lift);feet(lift,view);shoes(box,view);const set=view=='front'?PL:(PS[view]||{});
+ [4,5,9,0,1,6,10,2,7,11,3,8,12].forEach(i=>{if(!st.jw.includes(i))return;const key=JW[i][1];(set[key]||[]).forEach(([x,y,w,h,alt])=>{const im=new Image();im.src='a/j/'+(alt||key)+'.png';im.style.left=((x-w/2)/900*100)+'%';im.style.top=(y/1420*100)+'%';im.style.width=(w/900*100)+'%';if(h)im.style.height=(h/1420*100)+'%';if(view!='front'&&h)im.style.objectFit='fill';lift.appendChild(im)})})}
+function grid(){$('grid').innerHTML='';const g=$('grid');g.style.alignContent=st.cat!='Outfits'?'start':'';g.style.gridAutoRows=st.cat!='Outfits'?'4.05em':'';
+ const items=st.cat=='Outfits'?DR.map(d=>[d[0],d[1]]):st.cat=='Shoes'?SH.map((n,i)=>[n,'shoes'+i,i]).filter(x=>![4,6].includes(x[2])):JW.map(([n,f])=>[n,f]);
+ $('wh').textContent=st.cat=='Outfits'?'Your Wardrobe':st.cat;
+ items.forEach(([n,f,oi],i0)=>{const i=oi!=null?oi:i0;const on=st.cat=='Outfits'?st.d==i:st.cat=='Shoes'?st.sh==i:st.jw.includes(i);const b=document.createElement('button');b.className='it'+(on?' on':'');
+  b.innerHTML=`<img src="a/${f}.webp" alt=""><b>${n}</b>${st.cat=='Outfits'?'<i>'+Object.keys(SM).join(' ')+'</i>':''}`;
+  b.onclick=()=>{if(st.cat=='Outfits')st.d=i;else if(st.cat=='Shoes')st.sh=st.sh==i?null:i;else{const k=st.jw.indexOf(i);k<0?st.jw.push(i):st.jw.splice(k,1)}grid();stage();jewels()};g.appendChild(b)})}
+document.querySelectorAll('#sel [data-c]').forEach(b=>b.onclick=()=>{st.cat=b.dataset.c;jewels();document.querySelectorAll('#sel [data-c]').forEach(x=>x.classList.toggle('on',x==b));grid()});
+const msg=t=>{$('msg').textContent=t;setTimeout(()=>$('msg').textContent='',2500)};
+$('save').onclick=()=>{try{localStorage.setItem('rt2',JSON.stringify(st));msg('Look saved')}catch(e){}};
+$('share').onclick=()=>{const u=location.origin+location.pathname+'#'+btoa(JSON.stringify(st));navigator.clipboard?navigator.clipboard.writeText(u).then(()=>msg('Link copied')):0};
+const rs=()=>{st={...DEF};jewels();try{localStorage.removeItem('rt2')}catch(e){}history.replaceState(null,'',location.pathname);grid();stage();msg('Reset')};$('reset').onclick=rs;$('nl').onclick=rs;
+grid();stage();jewels();
+</script></html>
